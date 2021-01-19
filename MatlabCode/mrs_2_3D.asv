@@ -37,11 +37,7 @@ for n = 1:length(fn.Fraction)
         % shift z
         contData_F{n}.CMR.zz = contData_F{n}.CMR.zz + shft;
         for iST = 1:length(contData_F{n}.ST)
-            contData_F{n}.ST(iST).zz = contData_F{n}.ST(iST).zz + shft;
-        end
-        contData_F{n}.ZMin = contData_F{n}.ZMin + shft;
-        contData_F{n}.ZMax = contData_F{n}.ZMax + shft;
-%         contData_F{n}.ZLim = contData_F{n}.ZLim + shft;
+            contData_F{n}.ST(iST).zz = contData_F{n}.ST(iST).zz + shf
         
         XMin = min(XMin, contData_F{n}.XMin); XMax = max(XMax, contData_F{n}.XMax);
         YMin = min(YMin, contData_F{n}.YMin); YMax = max(YMax, contData_F{n}.YMax);

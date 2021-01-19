@@ -92,9 +92,9 @@ for iST = sST
     ST(iST).xxAll = xx1;
     ST(iST).yyAll = yy1;
     ST(iST).zzAll = zz1;
-%     ST(iST).XLim = [min(xx1) max(xx1)];
-%     ST(iST).YLim = [min(yy1) max(yy1)];
-%     ST(iST).ZLim = [min(zz1) max(zz1)];
+    ST(iST).XLim = [min(xx1) max(xx1)];
+    ST(iST).YLim = [min(yy1) max(yy1)];
+    ST(iST).ZLim = [min(zz1) max(zz1)];
     
     XMin = min(min(xx1), XMin);  XMax = max(max(xx1), XMax);
     YMin = min(min(yy1), YMin);  YMax = max(max(yy1), YMax);
