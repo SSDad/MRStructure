@@ -1,15 +1,14 @@
-clearvars
+function [DC] = fun_Render3D(ptMatFile, iPatient, CamView)
 
-b3CMRon = 1;
-
-%% patient info
-fdName_nonVG = 'VG';
-ptMatInfoFN = ['matInfo_', fdName_nonVG, '.mat'];
-load(ptMatInfoFN);
-
-iPatient = 1; % patient
 fns = ptMatFile(iPatient).matFN;
 [fd, fn] = fun_sortFinalFracitonMatFiles(fns);
+DC = [];
+
+
+if isfield(fn, 'Final')
+if fn.bFinalSSEmpty
+    display([fd, ' - Final Structure file is empty...']);
+else
 
 %% Final
 ffn_Final = fullfile(fd, fn.Final);
@@ -66,7 +65,7 @@ ST = contData_Final.ST;
 sST = contData_Final.sST;
 iOL3 = 0;
 
-maskAll_Final = zeros(size(;
+maskAll_Final = zeros(size(CMR.BW3));
 for iST = sST
     [ST(iST).BW3] = fun_get3DMask(ST(iST), dxyz, xyzLim, MNP);
     [f, v] = isosurface(xg, yg, zg, ST(iST).BW3, 0.99);
@@ -92,7 +91,7 @@ for iFR = 1:2
     L = legend(hAF(iFR), LText{iFR}, 'Interpreter', 'none');
     L.TextColor = 'w';
     L.FontSize = 16;
-    hAF(iFR).View = [-190 14];
+    hAF(iFR).View = CamView;
     axis(hAF(iFR), 'equal', 'tight')
 end
 
@@ -143,7 +142,7 @@ for iFR = 1:length(fn.Fraction)
         ST = contData_F{iFR}.ST;
         sST = contData_F{iFR}.sST;
         iOL3 = 0;
-        maskAll_FR = [];
+        maskAll_FR = zeros(size(CMR.BW3));
         for iST = sST
             [ST(iST).BW3] = fun_get3DMask(ST(iST), dxyz, xyzLim, MNP);
             [f, v] = isosurface(xg, yg, zg, ST(iST).BW3, 0.99);
@@ -163,11 +162,11 @@ for iFR = 1:length(fn.Fraction)
             contData_F{iFR}.sST_OL3 = sST_OL3;
         end
 
-        junkAND = maskAll_Final & maskAll_FR;
-        junkANDS = sum(junkAnd(:));
+        junkAnd = maskAll_Final & maskAll_FR;
+        junkAndS = sum(junkAnd(:));
         junk1 = sum(maskAll_Final(:));
         junk2 = sum(maskAll_FR(:));
-        DC(iFR) = 2*junkANDS/(junk1 + junk2);
+        DC(iFR) = 2*junkAndS/(junk1 + junk2);
         
 %         LText{1} = [CMR.sName; {ST(sST).sName}'];
         LText{1} = [CMR.sName; {ST(sST_OL3).sName}'];
@@ -175,7 +174,7 @@ for iFR = 1:length(fn.Fraction)
             L = legend(hA(m), LText{m}, 'Interpreter', 'none');
             L.TextColor = 'w';
             L.FontSize = 16;
-            hA(m).View = [-190 14];
+            hA(m).View = CamView;
             axis(hA(m), 'equal', 'tight')
         end
         
@@ -183,5 +182,12 @@ for iFR = 1:length(fn.Fraction)
         figffn = fullfile(fd, ['Render3D_', fn.str_Fraction{iFR}, '.png']);
         saveas(hF(iFig), figffn)    
 
+        DCffn = fullfile(fd, 'DC.mat');
+        save(DCffn, 'DC')    
     end
 end
+
+end % bFinalSSEmpty
+else
+    display([fd, ' - No Structure file for Final...']);
+end % isfiled - Final

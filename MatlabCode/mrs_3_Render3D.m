@@ -1,6 +1,6 @@
 clearvars
 
-b3CMRon = 1;
+CamView = [-160 -15];
 
 %% patient info
 fdName_nonVG = 'VG';
@@ -11,6 +11,10 @@ iPatient = 1; % patient
 fns = ptMatFile(iPatient).matFN;
 [fd, fn] = fun_sortFinalFracitonMatFiles(fns);
 
+if fn.bFinalSSEmpty
+    display([fd, ' - Final Structure file is empty...']);
+else
+    
 %% Final
 ffn_Final = fullfile(fd, fn.Final);
 
@@ -92,7 +96,7 @@ for iFR = 1:2
     L = legend(hAF(iFR), LText{iFR}, 'Interpreter', 'none');
     L.TextColor = 'w';
     L.FontSize = 16;
-    hAF(iFR).View = [-190 14];
+    hAF(iFR).View = CamView;
     axis(hAF(iFR), 'equal', 'tight')
 end
 
@@ -175,7 +179,7 @@ for iFR = 1:length(fn.Fraction)
             L = legend(hA(m), LText{m}, 'Interpreter', 'none');
             L.TextColor = 'w';
             L.FontSize = 16;
-            hA(m).View = [-190 14];
+            hA(m).View = CamView;
             axis(hA(m), 'equal', 'tight')
         end
         
@@ -183,5 +187,10 @@ for iFR = 1:length(fn.Fraction)
         figffn = fullfile(fd, ['Render3D_', fn.str_Fraction{iFR}, '.png']);
         saveas(hF(iFig), figffn)    
 
+        DCffn = fullfile(fd, 'DC.mat');
+        save(DCffn, 'DC')    
+
     end
 end
+
+end % bFinalSSEmpty

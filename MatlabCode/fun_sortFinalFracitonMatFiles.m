@@ -1,12 +1,15 @@
 function [fd, matfn] = fun_sortFinalFracitonMatFiles(fns)
+matfn = [];
 
 for n = 1:length(fns)
     [fd, fn{n}, ~] = fileparts(fns(n).matFN);
 end
 idx_Final = find(contains(fn, '_final', 'IgnoreCase' ,true));
 idx_AF = find(contains(fn, '_f', 'IgnoreCase' ,true));
-matfn.Final = fn{idx_AF};
-matfn.bFinalSSEmpty = fns(idx_Final).bSSEmpty;
+if ~isempty(idx_Final)
+    matfn.Final = fn{idx_Final(1)};
+    matfn.bFinalSSEmpty = fns(idx_Final(1)).bSSEmpty;
+end
 
 iFR = 0;
 for n = 1:length(idx_AF)
@@ -22,8 +25,10 @@ for n = 1:length(idx_AF)
         
     end
 end
-[~, ind] = sort(iFraction);
-% iFraction = iFraction(ind);
-matfn.bFSSEmpty = bSSEmpty(ind);
-matfn.Fraction = fn_Fraction(ind);
-matfn.str_Fraction = str_Fraction(ind);
+
+if iFR > 0
+    [~, ind] = sort(iFraction);
+    matfn.bFSSEmpty = bSSEmpty(ind);
+    matfn.Fraction = fn_Fraction(ind);
+    matfn.str_Fraction = str_Fraction(ind);
+end

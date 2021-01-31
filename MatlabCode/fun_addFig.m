@@ -2,6 +2,7 @@ function [hF, hA] = fun_addFig(iFig, r, c)
 
     hF = figure(iFig); clf(hF)
     hF.Color = 'k';
+    hF.InvertHardcopy = 'off';
     
     for n = 1:r*c
         hA(n) = subplot(r, c, n, 'parent', hF);
