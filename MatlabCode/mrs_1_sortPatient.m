@@ -1,6 +1,6 @@
 clearvars
 
-folder_nonVG = 'VG';
+folder_nonVG = 'nonVG';
 path_VG_nVG = '\\storage1.ris.wustl.edu\taehokim\Active\Lab\VR_VG_Pancreas_Ben\DoseQA\DoseQA_15_VG_nVG';
 path_nonVG = fullfile(path_VG_nVG, folder_nonVG);
 
@@ -25,7 +25,7 @@ for n = 1:length(fd_Patient)
     end
 end
 
-TT = table(folder_Patient, folder_Fraction);
+T_Patient = table(folder_Patient, folder_Fraction);
 
 fn = ['PatientTable_', folder_nonVG];    
-save(fn, 'TT')
+save(fn, 'T_Patient', 'path_nonVG')

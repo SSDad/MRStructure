@@ -1,53 +1,77 @@
 clearvars
 
-bProcessAll = 0;
-bGo = 0;
+folder_nonVG = 'VG';
 
-fd_matData = 'X:\Lab\Zhen\MRStructure\matData2';
-fdName_nonVG = 'VG';
-failSSFN = [fdName_nonVG, '_failSS.mat'];
-if exist(failSSFN, 'file')
-    load(failSSFN);
-else
-    bProcessAll = 1;
+% mat folder
+folder_matData = '\\storage1.ris.wustl.edu\taehokim\Active\Lab\Zhen\MRStructure\matData';
+path_matData_nonVG = fullfile(folder_matData, folder_nonVG);
+if ~exist(path_matData_nonVG, 'dir')
+    mkdir(path_matData_nonVG);
 end
 
-ptMatInfoFN = ['matInfo_', fdName_nonVG, '.mat'];
-if exist(ptMatInfoFN, 'file')
-    load(ptMatInfoFN);
+% patient table
+fn = ['PatientTable_', folder_nonVG];    
+load(fn)
+
+nF = size(T_Patient, 1);
+FileName_Struct = cell(nF, 1);
+Path_matData = cell(nF, 1);
+FileName_matData = cell(nF, 1);
+SSS = cell(nF, 1);
+
+nF = 10;
+for n = 1:nF
+    display(['Pr
+    
+    Path_matData{n} = fullfile(path_matData_nonVG, T_Patient.folder_Patient{n});
+    if ~exist(Path_matData{n}, 'dir')
+        mkdir(Path_matData{n});
+    end
+    
+    path_Struct = fullfile(path_nonVG, T_Patient.folder_Patient{n}, T_Patient.folder_Fraction{n});
+    junk = dir(fullfile(path_Struct, '*STRUCT*'));
+    if isempty(junk)
+        FileName_Struct{n} = [];
+        Path_matData{n} = [];
+        FileName_matData{n} = [];
+    else
+    
+        junk = junk(1);
+        ffn_Struct = fullfile(junk.folder, junk.name);
+        FileName_Struct{n} = junk.name;
+
+        SS = [];
+        SSS{n} = 0;
+        try
+            di = dicominfo(ffn_Struct, 'UseVRHeuristic', false);
+            SS = dicomContours(di);
+            SSS{n} = 1;
+        catch ME
+        end
+        FileName_matData{n} = ['SS_', T_Patient.folder_Fraction{n}, '.mat'];
+        ffn_mat = fullfile(Path_matData{n}, FileName_matData{n});
+        save(ffn_mat, 'SS')
+    end
 end
+T_Mat = table(FileName_Struct, FileName_matData, SSS);    
+fn = ['MatTable_', folder_nonVG];    
+save(fn, 'T_Mat', 'path_matData_nonVG')
 
-fd_matData_nonVG = fullfile(fd_matData, fdName_nonVG);
-if ~exist(fd_matData_nonVG, 'dir')
-    mkdir(fd_matData_nonVG);
-end
-
-fd_VG_nVG = '\\storage1.ris.wustl.edu\taehokim\Active\Lab\VR_VG_Pancreas_Ben\DoseQA\DoseQA_15_VG_nVG';
-fd_nonVG = fullfile(fd_VG_nVG, fdName_nonVG);
-% fd_VG = fullfile(fd_VG_nVG, 'VG');
-
-% nonVG
-junk = dir(fd_nonVG);
-fd_pt =junk(~ismember({junk(:).name},{'.','..'}));
 
 iFail = 0;
-for n = 6%1:length(fd_pt)
+for n = 7%1:length(fd_pt)
     ffd = fullfile(fd_pt(n).folder, fd_pt(n).name);
     junk = dir(ffd);
     fd_P =junk(~ismember({junk(:).name},{'.','..'}));
     
     % Final
-    matDataPath = fullfile(fd_matData_nonVG, fd_pt(n).name);
-    if ~exist(matDataPath, 'dir')
-        mkdir(matDataPath);
-    end
     
 %     ind = find(contains({fd_P.name}, '_f', 'IgnoreCase',true));
     ind = find(contains({fd_P.name}, '_', 'IgnoreCase',true));
     for nn = 1:length(ind)
         
         m = ind(nn);
-        matFN = fullfile(matDataPath, ['SS_', fd_P(m).name, '.mat']);
+        matFN = fullfile(Path_matData, ['SS_', fd_P(m).name, '.mat']);
         
         if bProcessAll
             bGo = 1;
@@ -108,15 +132,16 @@ for n = 6%1:length(fd_pt)
     end
 end
 
-save(ptMatInfoFN, 'ptMatFile')
-
-failFilePath = failFilePath';
-failFileName = failFileName';
-failReason = failReason';
-failMatFileName = failMatFileName';
-
-failTT = table(failFilePath, failFileName, failReason, failMatFileName);
-junk = [fdName_nonVG, '_failTT.xlsx'];
-writetable(failTT, junk);
-
-save(failSSFN, 'failTT');
+% 
+% save(ptMatInfoFN, 'ptMatFile')
+% 
+% failFilePath = failFilePath';
+% failFileName = failFileName';
+% failReason = failReason';
+% failMatFileName = failMatFileName';
+% 
+% failTT = table(failFilePath, failFileName, failReason, failMatFileName);
+% junk = [fdName_nonVG, '_failTT.xlsx'];
+% writetable(failTT, junk);
+% 
+% save(failSSFN, 'failTT');
