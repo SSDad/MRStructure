@@ -35,7 +35,7 @@ ZMin = min(zz1);  ZMax = max(zz1);
 % sort z
 [zz_3CMR, ind] = sort(zz_3CMR);
 % dz = abs(cont_3CMR{iC-1}(1,3)-cont_3CMR{iC}(1,3));
-dz = zz_3CMR(2) - zz_3CMR(1);
+dz = zz_3CMR(3) - zz_3CMR(2);
 
 CMR.zz = zz_3CMR;
 CMR.cont = cont_3CMR(ind);
@@ -66,7 +66,7 @@ indExistST(indNoST) = [];
 
 sST = indExistST;
 for iST = sST 
-    iS = indST{iST};
+    iS = indST{iST}(1);
     ST(iST).Color = T.Color{iS}/255;
     ST(iST).sName = sNames{iS};
     xx1 = [];

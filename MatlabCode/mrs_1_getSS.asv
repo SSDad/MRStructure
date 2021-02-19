@@ -4,7 +4,7 @@ bProcessAll = 0;
 bGo = 0;
 
 fd_matData = 'X:\Lab\Zhen\MRStructure\matData2';
-fdName_nonVG = 'nonVG';
+fdName_nonVG = 'VG';
 failSSFN = [fdName_nonVG, '_failSS.mat'];
 if exist(failSSFN, 'file')
     load(failSSFN);
@@ -31,7 +31,7 @@ junk = dir(fd_nonVG);
 fd_pt =junk(~ismember({junk(:).name},{'.','..'}));
 
 iFail = 0;
-for n = 1:length(fd_pt)
+for n = 6%1:length(fd_pt)
     ffd = fullfile(fd_pt(n).folder, fd_pt(n).name);
     junk = dir(ffd);
     fd_P =junk(~ismember({junk(:).name},{'.','..'}));
@@ -42,7 +42,8 @@ for n = 1:length(fd_pt)
         mkdir(matDataPath);
     end
     
-    ind = find(contains({fd_P.name}, '_f', 'IgnoreCase',true));
+%     ind = find(contains({fd_P.name}, '_f', 'IgnoreCase',true));
+    ind = find(contains({fd_P.name}, '_', 'IgnoreCase',true));
     for nn = 1:length(ind)
         
         m = ind(nn);

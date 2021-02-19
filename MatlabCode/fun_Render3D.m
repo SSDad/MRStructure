@@ -50,13 +50,13 @@ CMR = contData_Final.CMR;
 contData_Final.CMR = CMR;
 
 iFig = 1;
-[hF(iFig), hAF(1)] = fun_addFig(iFig, 1, 1);
+[hF(iFig), hAF(1)] = fun_addFigRC(iFig, 1, 1);
 hF(iFig).Name = 'Final';
 patch(hAF(1), 'Faces', f, 'Vertices', v, 'Facecolor', contData_Final.CMR.Color, 'Edgecolor', 'none', 'FaceAlpha', 0.2);
 hF(iFig).WindowState = 'maximized';
 
 iFig = iFig+1;
-[hF(iFig), hAF(2)] = fun_addFig(iFig, 1, 1);
+[hF(iFig), hAF(2)] = fun_addFigRC(iFig, 1, 1);
 hF(iFig).Name = 'Final 3CM Ring';
 patch(hAF(2), 'Faces', f, 'Vertices', v, 'Facecolor', contData_Final.CMR.Color, 'Edgecolor', 'none', 'FaceAlpha', 0.2);
 hF(iFig).WindowState = 'maximized';
@@ -103,6 +103,8 @@ saveas(hF(2), figffn)
 
 
 %% Fractions
+if isfield(fn, 'Fraction')
+
 for iFR = 1:length(fn.Fraction)
     if ~fn.bFSSEmpty(iFR)
         ffn_F{iFR} = fullfile(fd, fn.Fraction{iFR});
@@ -134,7 +136,7 @@ for iFR = 1:length(fn.Fraction)
         contData_F{iFR}.CMR = CMR;
 
         iFig = iFig+1;
-        [hF(iFig), hA] = fun_addFig(iFig, 1, 1);
+        [hF(iFig), hA] = fun_addFigRC(iFig, 1, 1);
         hF(iFig).Name = ['Fraction - ', num2str(iFR)];
         patch(hA(1), 'Faces', f, 'Vertices', v, 'Facecolor', CMR.Color, 'Edgecolor', 'none', 'FaceAlpha', 0.2);
 %         patch(hA(2), 'Faces', f, 'Vertices', v, 'Facecolor', CMR.Color, 'Edgecolor', 'none', 'FaceAlpha', 0.2);
@@ -186,6 +188,8 @@ for iFR = 1:length(fn.Fraction)
         save(DCffn, 'DC')    
     end
 end
+
+end % isfield(fn, Fraction)
 
 end % bFinalSSEmpty
 else

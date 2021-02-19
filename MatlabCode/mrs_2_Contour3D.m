@@ -26,6 +26,7 @@ iFig = 1;
 [hF(iFig), hA(iFig)] = fun_addFig(iFig);
 hA(iFig).Title.String = 'Final';
 hA(iFig).Title.Color = 'w';
+hF(iFig).WindowState = 'maximized';
 
 [hF_3CMR, hA_3CMR] = fun_addFig(101);
 
@@ -63,6 +64,7 @@ for n = 1:length(fn.Fraction)
         [hF(iFig), hA(iFig)] = fun_addFig(iFig);
         hA(iFig).Title.String = fn.str_Fraction{n};
         hA(iFig).Title.Color = 'w';
+        hF(iFig).WindowState = 'maximized';
 
         hL.Final.CMR = line(hA(iFig), contData_F{n}.CMR.xxAll, contData_F{n}.CMR.yyAll, contData_F{n}.CMR.zzAll,...
             'Color', contData_F{n}.CMR.Color, 'LineWidth', 0.1);
