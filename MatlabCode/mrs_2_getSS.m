@@ -1,6 +1,6 @@
 clearvars
 
-folder_nonVG = 'non VG';
+folder_nonVG = 'nonVG';
 
 % mat folder
 folder_matData = '\\storage1.ris.wustl.edu\taehokim\Active\Lab\Zhen\MRStructure\matData';

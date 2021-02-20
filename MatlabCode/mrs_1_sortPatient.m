@@ -22,10 +22,28 @@ for n = 1:length(fd_Patient)
         m = ind(nn);
         folder_Patient = [folder_Patient; {fd_Patient(n).name}];
         folder_Fraction = [folder_Fraction; {fd_Frac(m).name}];
+        
     end
 end
 
-T_Patient = table(folder_Patient, folder_Fraction);
+Fraction = cell(size(folder_Fraction));
+ind = find(contains(folder_Fraction, 'final', 'IgnoreCase', true));
+Fraction(ind) = {'Final'};
+
+for n = 1:10
+    frac = ['F', num2str(n)];
+    ind = find(contains(folder_Fraction, frac, 'IgnoreCase', true));
+    if ~isempty(ind)
+        Fraction(ind) = {frac};
+    end
+    junk = ['_', num2str(n)];
+    ind = find(contains(folder_Fraction, junk, 'IgnoreCase', true));
+    if ~isempty(ind)
+        Fraction(ind) = {frac};
+    end
+end
+
+T_Patient = table(folder_Patient, folder_Fraction, Fraction);
 
 fn = ['PatientTable_', folder_nonVG];    
 save(fn, 'T_Patient', 'path_nonVG')
