@@ -1,7 +1,7 @@
 function [BW3] = fun_get3DMask(S, dxyz, xyzLim, MNP)
 
 M = MNP(1); N = MNP(2); P = MNP(3);
-BW3 = zeros(M, N, P);
+BW3 = false(M, N, P);
 zz = S.zz;
 z1 = xyzLim(5);
 z2 = xyzLim(6);
@@ -29,7 +29,10 @@ for iP = 1:P
         end
     
         BW3(:,:, iP) = bw;
+    end
+end
     
+
 %     pt = S.cont{iP-P1}(:,1:2);
 %     
 %     
@@ -46,5 +49,4 @@ for iP = 1:P
 %     I3(:,:, n) = I;
 %     plot(hA, pt2(:, 1), pt2(:,2), 'g.')
 % set(hI, 'CData', I);
-    end
-end
+
