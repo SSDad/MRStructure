@@ -12,13 +12,12 @@ iS = idx_3CMR;
 cont_3CMR = T.ContourData{iS};
 CMR.Color = T.Color{iS}/255;
 CMR.sName = sNames{iS};
-CMR.name = sNames{iS};
 
 [CMR.sliceC] = fun_getSTC(cont_3CMR);
-
-% CMR.zz = [sliceC_3CMR.z]';
-% CMR.Min = min(cell2mat({sliceC_3CMR.Min}'));
-% CMR.Max = max(cell2mat({sliceC_3CMR.Max}'));
+CMR.subC = sliceC_3CMR.subC;
+CMR.zz = [sliceC_3CMR.z]';
+CMR.Min = min(cell2mat({sliceC_3CMR.Min}'));
+CMR.Max = max(cell2mat({sliceC_3CMR.Max}'));
 contData.CMR = CMR;
 
 %%  ST
@@ -43,11 +42,11 @@ for iST = 1:length(ST)
         ST(iST).Color = T.Color{iS}/255;
         ST(iST).sName = sNames{iS};
         cont = T.ContourData{iS};
-    [ST(iST).sliceC] = fun_getSTC(cont);
+    [sliceC] = fun_getSTC(cont);
     
-%     ST(iST).zz = [sliceC.z]';
-%     ST(iST).MIn = min(cell2mat({sliceC.Min}'));
-%     ST(iST).Max = max(cell2mat({sliceC.Max}'));
+    ST(iST).zz = [sliceC.z]';
+    ST(iST).MIn = min(cell2mat({sliceC.Min}'));
+    ST(iST).Max = max(cell2mat({sliceC.Max}'));
     end
 end
 

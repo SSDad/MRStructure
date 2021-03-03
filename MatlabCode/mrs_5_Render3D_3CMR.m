@@ -10,7 +10,7 @@ load(fn);
 
 [PatientList, ia, ic] = unique(T_Patient.folder_Patient);
 
-sPatient = 2; % patient
+sPatient = 5; % patient
 for iP = 1:length(sPatient)
     iPatient = sPatient(iP);
     ind = find(ic == iPatient);
@@ -18,6 +18,8 @@ for iP = 1:length(sPatient)
     TP = T_Patient(ind, :);
     TM = T_Mat(ind, :);
 
+    close all;
+    
     % final
     junk = find(contains(TP.Fraction, 'Final'));
     idx = junk(1);

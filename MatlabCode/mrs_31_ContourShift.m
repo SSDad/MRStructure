@@ -16,7 +16,7 @@ for iP = 1:length(sPatient)
     TP = T_Patient(ind, :);
     TM = T_Mat(ind, :);
 
-    fun_3_Contour3D(path_matData_nonVG, TP, TM);
+    [xS, yS, xShift, yShift, zShift] = fun_31_ContourShift(path_matData_nonVG, TP, TM, 1);
 end
     
     

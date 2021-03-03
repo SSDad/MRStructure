@@ -13,11 +13,11 @@ end
 fn = ['PatientTable_', folder_nonVG];    
 load(fn)
 
-nF = size(T_Patient, 1);
+nF = size(T_Patient, 1);  % Fractions for all patient
 FileName_Struct = cell(nF, 1);
 Path_matData = cell(nF, 1);
 FileName_matData = cell(nF, 1);
-SSS = cell(nF, 1);
+SSS = cell(nF, 1); % Struct Set Successful
 
 % nF = 3;
 for n = 1:nF

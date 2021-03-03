@@ -1,6 +1,12 @@
 function [hF, hA] = fun_addFig(iFig)
 
     hF = figure(iFig); clf(hF)
+    MP = get(0, 'MonitorPosition');
+    
+    if size(MP, 1) > 1
+        hF.Position(1:2) = hF.Position(1:2) + MP(2, 1:2);
+    end
+    
     hF.Color = 'k';
     hF.InvertHardcopy = 'off';
     
