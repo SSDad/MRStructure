@@ -8,7 +8,7 @@ load(fn);
 
 [PatientList, ia, ic] = unique(T_Patient.folder_Patient);
 
-sPatient = [2 5]; % patient
+sPatient = [1]; % patient
 for iP = 1:length(sPatient)
     iPatient = sPatient(iP);
     ind = find(ic == iPatient);
@@ -17,5 +17,4 @@ for iP = 1:length(sPatient)
     TM = T_Mat(ind, :);
 
     fun_4_Render3D(path_matData_nonVG, TP, TM);
-
 end

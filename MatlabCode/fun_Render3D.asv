@@ -1,4 +1,4 @@
-function [BW3, param3D, STNames, CLR] = fun_Render3D(matffn, matfd, FractionName, iSec, bFinal, param3D, CamView)
+function [BW3, param3D, STNames, CLR] = fun_Render3D(matffn, matfd, FractionName, iFig, bFinal, param3D, CamView)
 
 [contData] = fun_getContourData(matffn);
 CMR = contData.CMR;
@@ -66,8 +66,8 @@ else
     % xyz shift
     shftffn = fullfile(matfd, 'shft.mat');
     load (shftffn);
-%     iFrac = iFig-1;
-    xyzShift = [shft.x(iSec) shft.y(iSec) shft.z(iSec)];
+    iFrac = iFig-1;
+    xyzShift = [shft.x(iFrac) shft.y(iFrac) shft.z(iFrac)];
     CMR = fun_xyzShift(CMR, xyzShift);
     
     for iST = 1:length(ST)
@@ -78,7 +78,7 @@ end
 [BW3.CMR] = fun_get3DMask(CMR, param3D);
 [f, v] = isosurface(xg, yg, zg, BW3.CMR, 0.99);
 
-[hF, hA] = fun_addFig(iSec);
+[hF, hA] = fun_addFig(iFig);
 patch(hA, 'Faces', f, 'Vertices', v, 'Facecolor', CMR.Color, 'Edgecolor', 'none', 'FaceAlpha', 0.2);
 hA.Title.String = FractionName;
 hA.Title.Color = 'w';

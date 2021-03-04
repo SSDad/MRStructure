@@ -16,8 +16,8 @@ for iP = 1:length(sPatient)
     TP = T_Patient(ind, :);
     TM = T_Mat(ind, :);
 
-    [xS, yS, xShift, yShift, zShift] = fun_31_ContourShift(path_matData_nonVG, TP, TM, 1);
+    [shft] = fun_31_ContourShift(path_matData_nonVG, TP, TM, 1);
+    
+    ffn = fullfile(path_matData_nonVG, TP.folder_Patient{1}, 'shft.mat');
+    save(ffn, 'shft');
 end
-    
-    
-

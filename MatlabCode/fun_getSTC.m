@@ -7,7 +7,7 @@ end
 if ~isempty(z)
     [z, ind] = sort(z);
     conts = cont(ind);
-    [zs, ~, indz] = unique(z);
+    [zs, ~, indz] = uniquetol(z, 1e-3);
     for izs = 1:length(zs)
         sliceC(izs).z = zs(izs);
         indS = find(izs == indz);

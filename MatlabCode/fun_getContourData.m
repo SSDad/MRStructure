@@ -43,7 +43,7 @@ for iST = 1:length(ST)
         ST(iST).Color = T.Color{iS}/255;
         ST(iST).sName = sNames{iS};
         cont = T.ContourData{iS};
-    [ST(iST).sliceC] = fun_getSTC(cont);
+        [ST(iST).sliceC] = fun_getSTC(cont);
     
 %     ST(iST).zz = [sliceC.z]';
 %     ST(iST).MIn = min(cell2mat({sliceC.Min}'));
