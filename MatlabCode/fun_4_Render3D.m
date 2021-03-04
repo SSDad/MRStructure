@@ -10,9 +10,9 @@ CamView = [-160 -15];
     if TM.SSS{idx}
         matfd = fullfile(path_matData_nonVG, TP.folder_Patient{idx});
         matffn = fullfile(matfd, TM.FileName_matData{idx});
-        iFig = 1;
+        iSec = 1;
 %         FracNames{iFig} = TP.Fraction{idx};
-        [BW3, param3D, STNames, CLR] = fun_Render3D(matffn, matfd, 'Final', iFig, 1, [], CamView);
+        [BW3, param3D, STNames, CLR] = fun_Render3D(matffn, matfd, 'Final', iSec, 1, [], CamView);
         save(fullfile(matfd, 'param3D'), 'param3D', 'CLR')
         save(fullfile(matfd, ['BW3_Final.mat']), 'BW3')
 
@@ -21,9 +21,9 @@ CamView = [-160 -15];
         for m = 1:length(indFrac)
             iFrac = indFrac(m);
             matffn = fullfile(matfd, TM.FileName_matData{iFrac});
-            iFig = iFig+1;
+            iSec = iSec+1;
             FracNames{m} = TP.Fraction{iFrac};
-            [BW3, ~, ~, ~] = fun_Render3D(matffn, matfd, FracNames{m}, iFig, 0, param3D, CamView);
+            [BW3, ~, ~, ~] = fun_Render3D(matffn, matfd, FracNames{m}, iSec, 0, param3D, CamView);
             BW3ffn = fullfile(matfd, ['BW3_', FracNames{m}, '.mat']);    
             save(BW3ffn, 'BW3')
         end

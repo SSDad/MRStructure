@@ -101,6 +101,7 @@ L.TextColor = 'w';
 L.FontSize = 16;
 hA.View = CamView;
 axis(hA, 'equal', 'tight')
+
 figffn = fullfile(matfd, ['Render3D_', FractionName, '.fig']);
 savefig(hF, figffn)
 pngffn = fullfile(matfd, ['Render3D_', FractionName, '.png']);

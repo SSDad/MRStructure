@@ -19,11 +19,14 @@ for iST = 1:length(STNames)
     [f, v] = isosurface(xg, yg, zg, BW3_3CMR.ST{iST}, 0.99);
     patch(hA, 'Faces', f, 'Vertices', v, 'Facecolor', CLR.ST{iST}, 'Edgecolor', 'none', 'FaceAlpha', 0.5);
 end
-LText = [{'3CM_Ring'}; STNames];
+LText = [{'3CM_Ring'}; STNames'];
 L = legend(hA, LText, 'Interpreter', 'none');
 L.TextColor = 'w';
 L.FontSize = 16;
 hA.View = CamView;
 axis(hA, 'equal', 'tight')
-figffn = fullfile(matfd, ['Render3D_3CMR_', FractionName, '.png']);
-saveas(hF, figffn)
+
+figffn = fullfile(matfd, ['Render3D_3CMR_', FractionName, '.fig']);
+savefig(hF, figffn)
+pngffn = fullfile(matfd, ['Render3D_3CMR_', FractionName, '.png']);
+saveas(hF, pngffn)
