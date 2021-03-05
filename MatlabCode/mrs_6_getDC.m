@@ -1,5 +1,6 @@
 clearvars
 
+bView = 1;
 CamView = [-160 -15];
 
 folder_nonVG = 'VG';
@@ -36,30 +37,39 @@ for iP = 1:length(sPatient)
         BW3_Final_3CMR_ST{iST} = BW3_3CMR.ST{iST};
     end
 
-    for iFrac = 1:length(FracNames)
+    nFrac = length(FracNames);
+    nST = length(STNames);
+    if bView
+        [hF, hA] = fun_addFigRC(100, nFrac, nST);
+        % hA.Title.String = FractionName;
+%         hA.Title.Color = 'w';
+        hF.WindowState = 'maximized';
+        
+        load(fullfile(matfd, 'param3D.mat'));    
+    end
+    
+    for iFrac = 1:nFrac
         BW3ffn = fullfile(matfd, ['BW3_3CMR_', FracNames{iFrac}, '.mat']);    
         load(BW3ffn);
         [DC(iFrac).CMR] = fun_calDC(BW3_3CMR.CMR, BW3_Final_3CMR_CMR);
         
         maskAll_Frac = false(size(maskAll_Final));
-        for iST = 1:length(STNames)
+        for iST = 1:nST
             maskAll_Frac = maskAll_Frac | BW3_3CMR.ST{iST};
             [DC(iFrac).ST(iST)] = fun_calDC(BW3_3CMR.ST{iST}, BW3_Final_3CMR_ST{iST});
-%             junkAnd = BW3_3CMR.ST{iST} & BW3_Final_3CMR_ST{iST};
-%             junkAndSum = sum(junkAnd(:));
-%             junk1 = sum(BW3_3CMR.ST{iST}(:));
-%             junk2 = sum(BW3_Final_3CMR_ST{iST}(:));
-%             DC(iFrac).ST(iST) = 2*junkAndSum/(junk1 + junk2);
+            if bView
+                jBW{1} = BW3_3CMR.CMR;
+                jBW{2} = BW3_3CMR.ST{iST};
+                jBW{3} = BW3_Final_3CMR_ST{iST};
+                fun_3DComp(hA(iFrac, iST), jBW, param3D); 
+            end
         end
-%         junkAnd = maskAll_Final & maskAll_Frac;
-%         junkAndSum = sum(junkAnd(:));
-%         junk1 = sum(maskAll_Final(:));
-%         junk2 = sum(maskAll_Frac(:));
-%         DC(iFrac).All = 2*junkAndSum/(junk1 + junk2);
         [DC(iFrac).All] = fun_calDC(maskAll_Final, maskAll_Frac);
             
             
 %         [DC] = fun_Render3D_3CMR(BW3, FractionName{iFig}, iFig, 1,CamView, STNames);
     end
-    cell2mat({DC.ST}')
+    TDC = array2table(cell2mat({DC.ST}'));
+    TDC.Properties.VariableNames = STNames
+    
 end
